@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZIDAN PLAN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* Menggunakan font "Orbitron" yang bernuansa high-tech dari Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Orbitron', 'mono', monospace;
+            overflow: hidden; /* Mencegah scroll */
+            /* BARU: Menambahkan background hitam sebagai fallback jika video gagal dimuat */
+            background-color: #000; 
+        }
+        
+        /* BARU: Style untuk Video Background */
+        #background-video {
+            position: fixed; /* Tetap di layar */
+            top: 0;
+            left: 0;
+            width: 100vw; /* Lebar penuh viewport */
+            height: 100vh; /* Tinggi penuh viewport */
+            object-fit: cover; /* Menutupi layar, menjaga rasio aspek */
+            z-index: -1; /* Paling belakang, di bawah semua konten */
+            opacity: 0.7; /* Opacity 70% seperti diminta */
+        }
+
+        /* Efek Teks Hologram */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .hologram-text {
+            color: #00e5ff;
+            text-shadow: 
+                0 0 5px #00e5ff,
+                0 0 10px #00e5ff,
+                0 0 20px #00e5ff,
+                0 0 40px #00aaff,
+                0 0 80px #00aaff;
+            animation: pulse 2.5s infinite;
+        }
+
+        /* Kontainer UI Hologram */
+        .hologram-ui {
+            background-color: rgba(0, 40, 60, 0.2); 
+            border: 1px solid #00e5ff;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.5), 0 0 10px rgba(0, 229, 255, 0.5) inset;
+            color: #00e5ff;
+        }
+        
+        /* BARU: Tombol Hologram (untuk "Show My Plan") */
+        .hologram-button {
+            background-color: rgba(0, 229, 255, 0.2);
+            border: 1px solid #00e5ff;
+            color: #00e5ff;
+            text-shadow: 0 0 5px #00e5ff;
+            transition: all 0.3s ease;
+            font-size: 1.25rem; /* 20px */
+            padding: 1rem 2rem; /* padding atas/bawah 16px, kiri/kanan 32px */
+            border-radius: 0.5rem; /* 8px */
+            font-weight: 700;
+        }
+        .hologram-button:hover {
+            background-color: rgba(0, 229, 255, 0.5);
+            box-shadow: 0 0 20px #00e5ff;
+        }
+        .hologram-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Efek Scanline (garis-garis di layar) */
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100%); }
+        }
+        .scanline-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 229, 255, 0.03) 0%,
+                rgba(0, 229, 255, 0.03) 1px,
+                transparent 1px,
+                transparent 4px
+            );
+            background-size: 100% 4px;
+            animation: scanline 30s linear infinite;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body class="text-cyan-300 min-h-screen p-4">
+    
+    <video id="background-video" autoplay loop muted playsinline>
+        <source src="1763232230592.mp4" type="video/mp4">
+        Browser Anda tidak mendukung tag video.
+    </video>
+
+    <div class="scanline-overlay"></div>
+
+    <div id="gate-screen" class="flex items-center justify-center min-h-screen absolute inset-0 z-20">
+        <button id="show-plan-btn" class="hologram-button">
+            Show My Plan
+        </button>
+    </div>
+
+    <main id="main-content" class="w-full max-w-sm z-10 hidden flex items-center justify-center min-h-screen">
+        
+        <div class="hologram-ui p-6 sm:p-8 rounded-lg text-center">
+            
+            <h1 class="text-3xl sm:text-4xl font-bold hologram-text mb-6">
+                ZIDAN PLAN
+            </h1>
+
+            <div id="countdown-container" class="mb-6">
+                <div id="countdown-days" class="text-6xl sm:text-7xl font-bold text-white" style="text-shadow: 0 0 10px #fff;">
+                    ...
+                </div>
+                <div class="text-lg sm:text-xl text-cyan-200" style="animation: pulse 3s infinite;">
+                    hari Menuju...
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center space-x-4">
+                <img src="c9bc554d766f51757ffef95d08c1ee06 (1).jpg" 
+                     alt="Pemandangan Banda Neira"
+                     class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-cyan-400 object-cover shadow-lg"
+                     style="box-shadow: 0 0 15px #00e5ff;"
+                     onerror="this.src='https://placehold.co/100x100/0A2E3C/99EEFF?text=BN'">
+                
+                <h2 class="text-2xl sm:text-3xl font-bold hologram-text">
+                    Banda Neira
+                </h2>
+            </div>
+
+        </div>
+    </main>
+
+    <audio id="background-music" loop>
+        <source src="2900729467831573726-c.mp3" type="audio/mpeg">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+
+    <script>
+        // --- BARU: Logika "Gate" ---
+        const gateScreen = document.getElementById('gate-screen');
+        const mainContent = document.getElementById('main-content');
+        const showPlanBtn = document.getElementById('show-plan-btn');
+        const audio = document.getElementById('background-music');
+        
+        // BARU: Tambahkan referensi ke video
+        const video = document.getElementById('background-video');
+
+        showPlanBtn.addEventListener('click', () => {
+            // Memulai pemutaran audio (diizinkan karena dipicu oleh klik pengguna)
+            audio.play().catch(error => {
+                console.warn("Gagal memutar audio:", error);
+            });
+            
+            // BARU: Memastikan video juga diputar saat di-klik (untuk browser yang lebih ketat)
+            video.play().catch(error => {
+                console.warn("Gagal memutar video:", error);
+            });
+
+
+            // Sembunyikan "gate"
+            gateScreen.style.display = 'none';
+
+            // Tampilkan konten utama
+            mainContent.classList.remove('hidden');
+        });
+
+
+        // --- Logika Countdown Timer (Sama seperti sebelumnya) ---
+        const targetDate = new Date('2026-11-10T00:00:00');
+        const daysEl = document.getElementById('countdown-days');
+        const containerEl = document.getElementById('countdown-container');
+
+        function updateCountdown() {
+            const now = new Date();
+            const diff = targetDate.getTime() - now.getTime(); 
+
+            if (diff <= 0) {
+                containerEl.innerHTML = `
+                    <div class="text-4xl sm:text-5xl font-bold text-white" style="text-shadow: 0 0 10px #fff;">
+                        WAKTUNYA Tiba!
+                    </div>
+                `;
+                return;
+            }
+
+            const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            daysEl.innerText = daysLeft;
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 60000); 
+    </script>
+</body>
+</html>
